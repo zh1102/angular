@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="angular.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="new_file.css"/>
+	</head>
+	<body ng-controller="con">
+		<div id="wrop">
+			<div class="header">
+			<div class="sj">
+				<h1>北京时间</h1>
+				<p class="fz">{{sjda|date:'HH:mm'}}<span>:{{sjda|date:'ss'}}</span></p>
+				<p class="nf">{{sjda|date:'yyyy年MM月dd日'}}</p>
+			</div>
+			<div class="title">
+				<h1>欢迎来到评论区！</h1>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="tg">
+			<p>我是通告，我是通告，我是通告我是通告我是通告我是通告，我是通告，我是通告我是通告，我是通告，我是通告，我是通告，我是通告，我是通告，我是通告，我是通告，我是通告，，我是通告，我是通告我是通告，我是通告</p>
+		</div>
+		<div ng-class="plnr<1?'plq':'plqk' ">
+			<p ng-show="plnr<1" class="pl">暂无评论，积极参与评论有奖！</p>
+			<div ng-repeat="i in plnr|limitTo:isShow?ary.length:3 ">	
+				<h1>用户：{{i.name}}</h1>
+				<p ng-bind="i.nr"></p>
+				<span ng-bind="i.sj|date:'yyyy年MM月dd日HH时mm分ss秒' "></span>
+				<button ng-click="del($index)">删除<tton>
+			</div>	
+		</div>
+		 <div class="zk" ng-show="plnr.length>3">
+		 	<button ng-show="!isShow" ng-click="isShow=true">查看全部评论<tton>
+		 	<button ng-hide="!isShow" ng-click="isShow=false">关闭全部评论<tton>
+		 </div>
+
+		<hr />
+		<div class="lyk">
+			<p>用户名：<input type="text" ng-model="textVal"/></p>
+			<textarea name="" rows="" cols="" ng-model="areaVal"></textarea>
+			<button ng-click="qk()">清空</button>
+			<button ng-click="pl()">评论</button>
+		</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		angular.module('myapp',[])
+		.controller('con',['$scope','$interval',function($scope,$interval){
+			$scope.textVal='';
+			$scope.areaVal='';
+			$scope.plnr=[]
+			$scope.xsj='';
+			$scope.pl=function(){
+				if($scope.textVal!=''&&$scope.areaVal!=''){
+					$scope.xsj=(new Date()).getTime();
+					$scope.plnr.unshift({
+						name:$scope.textVal,
+						nr:$scope.areaVal,
+						sj:$scope.xsj
+					});
+					$scope.textVal='';
+					$scope.areaVal='';
+				}else{
+					alert("输入为空，请重新输入！")
+				}
+			}
+			//查看全部
+			$scope.isShow=false;
+			$scope.del=function(n){
+				$scope.plnr.splice(n,1)
+			}
+			$scope.qk=function(){
+				$scope.textVal='';
+				$scope.areaVal='';
+			}
+			$interval(function(){			
+				$scope.sjda=new Date().getTime()
+			},1000)
+			
+		}])
+	</script>
+</html>
